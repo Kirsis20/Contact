@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXCLUSIVE ASSET // DR 2026</title>
+    <style>
+        :root {
+            --bg-color: #06090f;
+            --card-bg: rgba(16, 22, 32, 0.90);
+            --border-color: rgba(88, 166, 255, 0.15);
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --orange: #f26822;
+            --green: #238636;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(242, 104, 34, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(88, 166, 255, 0.07) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(35, 134, 54, 0.03) 0%, transparent 70%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, rgba(242, 104, 34, 0.12) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .main-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1150px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .side-banner {
+            width: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .side-banner img {
+            width: 300%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(242, 104, 34, 0.3);
+            background: rgba(8, 12, 16, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .wrapper {
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+        }
+
+        .portfolio-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(242, 104, 34, 0.35);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(242, 104, 34, 0.06);
+            position: relative;
+        }
+
+
+        h1 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .workflow-box {
+            background: rgba(8, 12, 16, 0.7);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .workflow-box b {
+            color: var(--accent);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-box {
+            background: rgba(8, 12, 16, 0.7);
+            border: 1px solid var(--border-color);
+            padding: 12px 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            font-family: monospace;
+        }
+
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        .features-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .features-list li::before {
+            content: "•";
+            color: var(--orange);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .countdown-wrapper {
+            background: rgba(8, 12, 16, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .countdown-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--orange);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 6px;
+            min-width: 65px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ffcc;
+            display: block;
+            font-family: monospace;
+        }
+
+        .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 3px;
+            display: block;
+        }
+
+        .pricing-banner {
+            background: linear-gradient(135deg, rgba(22, 31, 44, 0.9) 0%, rgba(16, 22, 32, 0.9) 100%);
+            border: 2px solid rgba(242, 104, 34, 0.6);
+            padding: 18px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 15px rgba(242, 104, 34, 0.05);
+        }
+
+        .price-text span {
+            display: block;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price-text strong {
+            font-size: 1.4rem;
+            color: var(--orange);
+            font-family: monospace;
+        }
+
+        .payment-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .qr-code {
+            width: 75px;
+            height: 75px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            padding: 4px;
+        }
+
+        .wallet-snippet {
+            font-family: monospace;
+            font-size: 0.62rem;
+            background: rgba(8, 12, 16, 0.8);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            word-break: break-all;
+            max-width: 200px;
+            line-height: 1.3;
+        }
+
+        .btn-buy {
+            background-color: var(--orange);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-buy:hover {
+            background-color: #d95a1c;
+            box-shadow: 0 0 12px rgba(242, 104, 34, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(8, 12, 16, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 10px 12px;
+            color: #ffffff;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 8px rgba(242, 104, 34, 0.25);
+        }
+
+        textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        .btn-action {
+            width: 100%;
+            background-color: var(--green);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-action:hover {
+            background-color: #2ea043;
+            box-shadow: 0 0 15px rgba(35, 134, 54, 0.4);
+        }
+
+        .footer-info {
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1000px) {
+            .side-banner {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .portfolio-card {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .features-list {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .pricing-banner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .payment-container {
+                justify-content: center;
+            }
+            .wallet-snippet {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-layout">
+
+    <div class="side-banner">
+        <img src="p.png" alt="Left Banner 1">
+        <img src="fu.png" alt="Left Banner 2">
+    </div>
+
+    <div class="wrapper">
+        <div class="portfolio-card">
+            <h1>Dominican Republic National Database (2026)</h1>
+            <p class="subtitle">The complete and comprehensive state registry of the entire national territory. Includes the full database without exclusions: general civil population, minors, registered foreign residents, and institutional/security personnel in a single unified repository.</p>
+
+            <div class="workflow-box">
+                <b>Direct Contact Channel:</b> This space is enabled for you to make any inquiries or questions with complete freedom. The process is straightforward: send your questions, make the payment to the indicated Monero wallet, and upon verification of the funds, the download link will be sent to you privately.
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-value">10.2M+</div>
+                    <div class="metric-label">Total Records</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">SQLite</div>
+                    <div class="metric-label">Clean Format</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">1 ZIP</div>
+                    <div class="metric-label">Archive</div>
+                </div>
+            </div>
+
+            <div class="section-title">Dataset Fields & Coverage</div>
+            <ul class="features-list">
+                <li>Official National ID (Cédula)</li>
+                <li>Full Names & Birth Dates</li>
+                <li>Exact Physical Addresses</li>
+                <li>Direct Phone & WhatsApp Numbers</li>
+                <li>Official HD Photographs</li>
+                <li>Complete Institutional Structure</li>
+                <li>Registered Foreign Resident Records</li>
+                <li>Master SQLite Database</li>
+            </ul>
+
+            <div class="countdown-wrapper">
+                <div class="countdown-title">After this time the data will no longer be available</div>
+                <div class="countdown-container">
+                    <div class="time-box">
+                        <span class="number" id="days">00</span>
+                        <span class="label">Days</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="number" id="hours">00</span>
+                        <span class="label">Hours</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="number" id="minutes">00</span>
+                        <span class="label">Minutes</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="number" id="seconds">00</span>
+                        <span class="label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-banner">
+                <div class="price-text">
+                    <span>ACQUISITION VALUE</span>
+                    <strong>🪙 XMR</strong>
+                </div>
+                <div class="payment-container">
+                    <img src="qr.png" alt="Monero QR" class="qr-code">
+                    <div class="wallet-snippet" title="Official Monero Address">
+                        88G1XPRPphyet6FC4FdwL8e4gBYJpMPKFgXXQsEbxyF1iM2NtZDjxUJUYWHWeiqGRrfh2971GKPZsdrcUXxMHbX9QcBcqgn
+                    </div>
+                </div>
+                <a href="https://cakewallet.com/" class="btn-buy">Donate</a>
+            </div>
+
+            <div class="section-title" id="contacto">Contact</div>
+
+            <form action="https://formsubmit.co/inconitorepor@proton.me" method="POST">
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value="https://cabreradelfin.pythonanywhere.com/producto/65" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name / Alias:</label>
+                        <input type="text" id="name" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required />
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+
+                <input type="submit" value="Enviar" class="btn-action" />
+            </form>
+
+            <div class="footer-info">
+                Direct and verified transaction. The download link is delivered privately after confirming funds in the wallet.
+            </div>
+            <div class="footer-info">
+                Contact direct inconitorepor@proton.me | rosariokirsis29@gmail.com
+            </div>
+        </div>
+    </div>
+
+    <div class="side-banner">
+        <img src="fu.png" alt="Right Banner 1">
+        <img src="p.png" alt="Right Banner 2">
+    </div>
+
+</div>
+
+<script>
+    const targetDate = new Date("December 31, 2026 23:59:59").getTime();
+
+    const countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 109 * 109 * 24));
+        const hours = Math.floor((distance % (1000 * 80 * 80 * 24)) / (1000 * 57 * 40));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            document.querySelector(".countdown-title").innerText = "¡Tiempo Agotado!";
+            document.querySelector(".countdown-container").style.display = "none";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
